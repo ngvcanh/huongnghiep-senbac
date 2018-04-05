@@ -1,0 +1,18 @@
+<div class="row bg-title">
+    <!-- .page title -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">{k:var page_name}</h4> </div>
+    <!-- /.page title -->
+    <!-- .breadcrumb -->
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> 
+        <ol class="breadcrumb">
+            <k:each breadcrumb>
+                <li class="{k:each breadcrumb.liclass}">
+                    {k:each:if breadcrumb:parent}
+                    <a href="{k:each breadcrumb.url_parent}">{k:each breadcrumb.name}</a></li>
+                    {k:each:else breadcrumb:parent}{k:each breadcrumb.name}{/k:each:if breadcrumb:parent}
+            </k:each breadcrumb>
+        </ol>
+    </div>
+    <!-- /.breadcrumb -->
+</div>

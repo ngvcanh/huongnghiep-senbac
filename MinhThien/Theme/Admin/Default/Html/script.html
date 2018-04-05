@@ -1,0 +1,122 @@
+<!-- jQuery 3 -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Morris.js charts -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/raphael/raphael.min.js"></script>
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/morris.js/morris.min.js"></script>
+<!-- Sparkline -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<!-- jvectormap -->
+<!--
+<script src="{k:var url_project}/Theme/Admin/Default/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="{k:var url_project}/Theme/Admin/Default/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+-->
+<!-- jQuery Knob Chart -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/moment/min/moment.min.js"></script>
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="{k:var url_project}/Theme/Admin/Default/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Slimscroll -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="{k:var url_project}/Theme/Admin/Default/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="{k:var url_project}/Theme/Admin/Default/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!--
+<script src="{k:var url_project}/Theme/Admin/Default/dist/js/pages/dashboard.js"></script>
+-->
+<!-- AdminLTE for demo purposes -->
+<!--
+<script src="{k:var url_project}/Theme/Admin/Default/dist/js/demo.js"></script>
+-->
+<script src="{k:var url_project}/Theme/Admin/Default/Js/alert.js"></script>
+<script src="{k:var url_project}/Theme/Admin/Default/Js/validate.js"></script>
+<script src="{k:var url_project}/Theme/Admin/Default/Js/function.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		Validate.submit('.mainform', {
+			beforeValid : function(selector, attr){
+				let parent = $(selector).find('[' + attr + ']').parent();
+				parent.removeClass('has-error');
+				parent.find('.help-block').addClass('hidden');
+			},
+			validError : function(selector, error){
+				error.forEach(function(element){
+					let parent = $(selector).find('[' + attr + ']').parent();
+					parent.parent().addClass('has-error');
+					parent.removeClass('hidden');
+				});
+			},
+			ajaxError : function(){
+				Alert.close();
+				Alert.popup({
+					title : 'Error',
+					classes : 'error',
+					message : 'Cannot connect server.',
+					btn : [{label : 'OK', color : 'red', isFocus : true, fn : Alert.close}]
+				});
+			},
+			ajaxSuccess : function(selector, response, xhr){console.log(response);
+				var result = response;
+				Alert.close();
+				try{
+					if ('object' !== $.type(result) && 'array' !== $.type(result)) result = JSON.parse(response);
+					if ('success' === result.status){
+						var oa = {title : 'Process Success', classes : 'success', message : result.message};
+						if (1 === result.click){
+							var btn = function(){
+								if (undefined !== result.url) window.location.href = result.url;
+								else Alert.close();
+							};
+							oa.btn = [{label : 'OK', color : 'green', isFocus : true, fn : btn}];
+							Alert.popup(oa);
+						}else{
+							Alert.popup(oa);
+							setTimeout(function(){
+								if (undefined !== result.url) window.location.href = result.url;
+								else window.location.reload(true);
+							}, 2000);
+						}
+					}else{
+						Alert.popup({
+							title : 'Process Error',
+							classes : 'error',
+							message : result.message,
+							btn : [{label : 'OK', color : 'red', isFocus : true, fn : Alert.close}]
+						});
+						if (undefined !== result.element){//console.log(result.element);
+							result.element.forEach(function(name){
+								$(selector).find('[name=' + name + ']').addClass('invalid');
+							});
+						}
+					}
+				}catch(e){
+					Alert.popup({
+						title : 'Error',
+						classes : 'error',
+						message : 'Response invalid.',
+						btn : [{label : 'OK', color : 'red', isFocus : true, fn : Alert.close}]
+					});
+				}
+				response = null;
+			}
+		});
+
+	});
+
+</script>
+<k:inc sub_script>

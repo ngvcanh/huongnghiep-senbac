@@ -1,0 +1,47 @@
+<section class="content">
+  <div class="row"> 
+      <!-- right column -->
+    <div class="col-md-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">{k:var breadcrumb_title}</h3>
+          <a href="{k:var url_add}" class="btn btn-success btn-flat pull-right">Add</a>
+        </div>
+        <div class="box-body">
+          <table id="dataTable" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Point</th>
+                  <th>Acction</th>
+                </tr>
+              </thead>
+              <tbody>
+                <k:each listLocationSchools>
+                  <tr>
+                    <td>{k:each listLocationSchools.id}</td>
+                    <td>{k:each listLocationSchools.name}</td>
+                    <td>
+                      <k:each listLocationSchools.address>
+                        {k:each listLocationSchools.address.addrees_schools}
+                      </k:each listLocationSchools.address>
+                    </td>
+                    <td>{k:each listLocationSchools.point}</td>
+                    <td>
+                      <k:each listLocationSchools.url_location_schools>
+                        <a href="{k:each listLocationSchools.url_location_schools.edit}" class="btn btn-primary btn-flat">Edit</a>
+                        <a href="{k:each listLocationSchools.url_location_schools.delete}" class="btn btn-danger btn-flat">Delete</a>
+                      </k:each listLocationSchools.url_location_schools>
+                    </td>
+                  </tr>
+                </k:each listLocationSchools>
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+</section>

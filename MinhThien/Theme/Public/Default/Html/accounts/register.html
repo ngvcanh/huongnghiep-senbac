@@ -1,0 +1,104 @@
+<!-- Preloader -->
+<div class="preloader" style="display: none;">
+    <div class="cssload-speeding-wheel"></div>
+  </div>
+  <section id="wrapper" class="login-register">
+    <div class="login-box login-sidebar">
+      <div class="white-box">
+        <form class="form-horizontal form-material" id="register" action="{k:var url_current}" method="post">
+          <a href="javascript:void(0)" class="text-center db"> <img src="{k:var url_project}/Theme/Public/Default/Images/crm/favicon.png" alt="Home"></a>
+          <h3 class="box-title m-t-40 m-b-0">Register Now</h3><small>Create your account and enjoy</small> 
+          
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input class="form-control" type="text" required="" placeholder="Email" name="email" form-valid="email:7:100">
+            </div>
+          </div>
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input class="form-control" type="password" required="" placeholder="Password" name="password" form-valid="str:6:32">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <input class="form-control" type="password" required="" placeholder="Confirm Password" name="confirm_password" form-valid="str:6:32">
+            </div>
+          </div>
+          <div class="form-group m-t-20">
+            <div class="col-xs-12">
+              <input class="form-control" type="text" required="" placeholder="First Name" name="firstname" form-valid="str:1:100">
+            </div>
+          </div>
+          <div class="form-group m-t-20">
+            <div class="col-xs-12">
+              <input class="form-control" type="text" required="" placeholder="Last Name" name="lastname" form-valid="str:1:100">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="checkbox checkbox-primary p-t-0">
+                <input id="checkbox-signup" type="checkbox">
+                <label for="checkbox-signup"> I agree to all <a href="#">Terms</a></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-center m-t-20">
+            <div class="col-xs-12">
+                <input type="hidden" name="token" value="{k:var accounts_register_token}">
+                <input type="hidden" name="commit" value="{k:var accounts_register_commit}">
+              <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Sign Up</button>
+            </div>
+          </div>
+          <div class="form-group m-b-0">
+            <div class="col-sm-12 text-center">
+              <p>Already have an account? <a href="login2.html" class="text-primary m-l-5"><b>Sign In</b></a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+<!-- jQuery -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Menu Plugin JavaScript -->
+<script src="{k:var url_project}/Theme/Public/Default/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+
+<!--slimscroll JavaScript -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/jquery.slimscroll.js"></script>
+<!--Wave Effects -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/waves.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/custom.min.js"></script>
+<!--Style Switcher -->
+<script src="{k:var url_project}/Theme/Public/Default/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+<!--Javascript -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/alert.js"></script>
+<script src="{k:var url_project}/Theme/Public/Default/Js/function.js"></script>
+<script src="{k:var url_project}/Theme/Public/Default/Js/validate.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        Validate.submit('#register', {
+            beforeValid : beforeValid,
+            validError : function(selector, elements){
+                let msg = '';
+                elements.forEach(function(element){
+                    let name = $(element[0]).attr('name');
+                    msg += '<li>' + name + ': Invalid.</li>';
+                });
+                msg = '<ul>' + msg + '</ul>';
+                Alert.popup({
+                    title : 'Validate Error',
+                    classes : 'error',
+                    message : msg,
+                    btn : [{label : 'OK', color : 'red', isFocus : true, fn : Alert.close}]
+                });
+            },
+            ajaxSuccess : ajaxSuccess,
+            ajaxError : ajaxError
+        });
+
+    });
+</script>

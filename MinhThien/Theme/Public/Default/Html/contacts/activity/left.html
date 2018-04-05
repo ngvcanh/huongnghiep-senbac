@@ -1,0 +1,61 @@
+<div class="col-md-4 col-xs-12">
+    <div class="white-box">
+        <div style="text-align: center;">
+            <a href="javascript:void(0)">
+                <img src="<k:if:var contact.avatar>{k:var contact.avatar}<k:else:var contact.avatar>/Theme/Public/Default/Images/user.jpg</k:if:var contact.avatar>" class="thumb-lg img-circle" alt="img">
+            </a>
+        </div>
+        <div class="user-btm-box">
+            <!-- .row -->
+            <div class="row text-center m-t-10">
+                <div class="col-md-6 b-r"><strong>Name</strong>
+                    <p>{k:var contact.firstname} {k:var contact.lastname}</p>
+                </div>
+                <div class="col-md-6"><strong>Job title</strong>
+                    <p>{k:var contact.job_title}</p>
+                </div>
+            </div>
+            <!-- /.row -->
+            <hr>
+            <!-- .row -->
+            <div class="row text-center m-t-10">
+                <div class="col-md-6 b-r"><strong>Email</strong>
+                    <p style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                        <a href="mailto:{k:var contact.email}" title="{k:var contact.email}">{k:var contact.email}</a>
+                    </p>
+                </div>
+                <div class="col-md-6"><strong>Phone</strong>
+                    <p>
+                        <a id="sbC2C">{k:var contact.phone}</a>
+                    </p>
+                </div>
+            </div>
+            <!-- /.row -->
+            <hr>
+            <!-- .row -->
+            <div class="row text-center m-t-10">
+                <div class="col-md-12">
+                    <strong>Home address</strong>
+                    <p>{k:var contact.home_address}</p>
+                </div>
+            </div>
+            <div class="row text-center m-t-10">
+                <div class="col-md-12">
+                    <strong>Company address</strong>
+                    <p>{k:var contact.company_address}</p>
+                </div>
+            </div>
+            <hr>
+            <!-- /.row -->
+            <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-purple"><i class="ti-facebook"></i></p>
+                <h1>258</h1> </div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-blue"><i class="ti-twitter"></i></p>
+                <h1>125</h1> </div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-danger"><i class="ti-dribbble"></i></p>
+                <h1>556</h1> </div>
+        </div>
+    </div>
+</div>

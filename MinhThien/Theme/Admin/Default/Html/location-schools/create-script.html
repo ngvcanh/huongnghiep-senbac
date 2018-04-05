@@ -1,0 +1,44 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('keyup', 'input#street', function(){
+      var name = $(this).val();
+      if(name.length > 0){
+        $('div.form-street').addClass('active').html('');
+        $.post(
+          $(this).attr('data-ajax'),
+          {
+            name
+          },function(data){
+            if(data.length > 0){
+              $('div.form-street').html(data);
+            }
+          }
+        )
+      }
+      else $('div.form-street').removeClass('active');
+    });
+
+    $(document).on('click', 'div.form-street ul li', function(){
+      $('input#street').val($(this).text());
+      $('div.form-street').html('').removeClass('active');
+    });
+
+    $(document).on('change', 'select.district', function(){
+      var id = $('option:selected', this).attr('id');
+      
+      if(parseInt(id) > 0){
+        $.post(
+          $(this).attr('data-ajax'),
+          {
+            id: id
+          },function(data){
+            if(data.length > 0){
+              $('select.ward').html(data);
+            }
+          }
+        )
+      }
+    });
+
+  });
+</script>

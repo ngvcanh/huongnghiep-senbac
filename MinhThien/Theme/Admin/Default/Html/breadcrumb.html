@@ -1,0 +1,15 @@
+<section class="content-header">
+    <h1>{k:var breadcrumb_name}<small>{k:var breadcrumb_action}</small></h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{k:var url_home}"><i class="fa fa-dashboard"></i> Dashboard</a>
+        </li>
+        <k:each breadcrumb>
+            {k:each:if breadcrumb:url}
+            <li><a href="{k:each breadcrumb.url}">{k:each breadcrumb.name}</a></li>
+            {k:each:else breadcrumb:url}
+            <li class="active">{k:each breadcrumb.name}</li>
+            {/k:each:if breadcrumb:url}
+        </k:each breadcrumb>
+    </ol>
+</section>

@@ -1,0 +1,67 @@
+<section class="content">
+    <div class="row">
+        <!-- right column -->
+        <div class="col-md-12">
+        <form method="post" action="{k:var url_current}" class="mainform">
+            <div class="box">
+            <div class="box-footer">
+                <a href="{k:var url_list}" class="btn btn-default">Back to list</a>
+                <input type="hidden" name="token" value="{k:var blog_category_form_token}" />
+                <input type="hidden" name="commit" value="{k:var blog_category_form_commit}" />
+                <button type="submit" class="btn btn-info pull-right">{k:var button_form}</button>
+            </div>
+            </div>
+            <!-- Horizontal Form -->
+            <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information Location Schools</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="box-body">
+                <div class="form-group col-md-12">
+                    <label for="name">Schools Name</label>
+                    <input type="email" class="form-control" name="name" id="name" placeholder="Schools Name">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="point">Point</label>
+                    <input type="number" value="1" min="1" class="form-control" name="point" id="point" placeholder="Point">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="address">Address</label>
+                    <input class="form-control" name="address" id="address" placeholder="Address">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="street">Street</label>
+                    <input autocomplete="off" class="form-control" name="street" id="street" data-ajax="{k:var url_get_street}" placeholder="Street">
+                    <div class="form-street"></div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label>District</label>
+                        <select class="form-control district" name="district" data-ajax="{k:var url_get_ward}">
+                            <option selected="selected" id="-1" value="-1">--- Select District ---</option>
+                            <k:each listDistrict>
+                                <option id="{k:each listDistrict.id}" value="{k:each listDistrict.name}">{k:each listDistrict.name}</option>
+                            </k:each listDistrict>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label>Ward</label>
+                        <select class="form-control ward">
+                            <option selected="selected" value="-1">--- Select Ward ---</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            </div>
+        </div>
+        <!--/.col (right) -->
+        </form>
+    </div>
+    <!-- /.row -->
+</section>

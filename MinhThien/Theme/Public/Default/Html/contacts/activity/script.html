@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+
+        $('#firstname').editable({
+            type: 'text',
+            pk: 1,
+            name: 'firstname',
+            title: 'Enter firstname',
+            mode: 'inline'
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $(document).on('click', '#sbC2C', function(){
+            var phone = $(this).text();
+            if (!/^0/gi.test(phone)) phone = '0' + phone;
+
+            CRM.CONTACTS.click2call(phone, function(data){
+                //console.log(data);
+            });
+            //socket.emit('contacts-click2call', phone);
+        });
+
+    });
+</script>
