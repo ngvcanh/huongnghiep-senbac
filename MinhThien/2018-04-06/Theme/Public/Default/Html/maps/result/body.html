@@ -1,0 +1,58 @@
+<body class="cbp-spmenu-push" id="home">
+  <!-- Banner -->
+  <div id="house" class="top-header">
+    <div class="col-md-6 logo-w3l w32">
+      <h1 class="location"><a href="index.html">Trang Chủ</a></h1>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <!--bottom-->
+  <div class="button">
+    <button id="showLeftPush"><img src="{k:var url_project}/Theme/Public/Default/Images/menu.png" alt=""></button>
+  </div>
+  <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+    <h3>Tìm Kiếm</h3>
+    <div class="row">
+      <form class="pd15" method="post" id="submit-form-search" data-ajax="{k:var url_result}">
+        <div class="form-group col-md-12">
+          <label for="address"> Địa Chỉ Của Bạn</label>
+          <input value="{k:var result_maps.addreesMember}" form-valid="str:1:200" class="form-control" id="address" placeholder="Địa Chỉ Của Bạn">
+        </div>
+        <div class="form-group col-md-12">
+          <label for="point_match"> Điểm Môn Toán</label>
+          <input value="{k:var result_maps.point_match}" id="point_match" form-valid="int:1:10" name="point_match" class="form-control" id="point_match" placeholder=" Điểm Môn Toán">
+        </div>
+        <div class="form-group col-md-12">
+         <label for="point_literature"> Điểm Môn Văn</label>
+          <input value="{k:var result_maps.point_literature}" id="point_literature" form-valid="int:1:10" name="point_literature" class="form-control" id="point_literature" placeholder=" Điểm Môn Văn">
+        </div>
+        <div class="form-group col-md-12">
+         <label for="point_more"> Điểm Môn Phụ</label>
+          <input value="{k:var result_maps.point_more}" id="point_more" form-valid="int:1:10" class="form-control" name="point_more" id="point_more" placeholder=" Điểm Môn Phụ">
+        </div>
+        <div class="form-group col-md-6">
+         <label for="about_km"> Khoảng Cách Đường</label>
+          <input value="{k:var result_maps.about_km}" id="about_km" min="0" max="30" value="0" form-valid="int:0:30" type="range" class="form-control" id="about_km" placeholder="Khoảng Cách">
+        </div>
+        <div class="form-group col-md-6">
+         <label for="about_point"> Khoảng Cách Điểm</label>
+          <input value="{k:var result_maps.about_point}" id="about_point" form-valid="int:0:100" name="about_point" type="range" class="form-control" id="about_point" placeholder="Khoảng Cách">
+        </div>
+        <div class="form-group col-md-6">
+          <input type="hidden" id="token" name="token" value="{k:var maps_form_search_token}" />
+          <input type="hidden" id="commit" name="commit" value="{k:var maps_search_commit}" />
+          <button type="submit" id="submit-form-search" class="btn btn-info">Tra Cứu</button>
+        </div>
+       
+      </form>
+    </form>
+    </div>
+  </nav>
+  <!--start-slider-->
+  <div class="banner">
+    <div id="res-map">
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <k:inc sub_script>
+</body>

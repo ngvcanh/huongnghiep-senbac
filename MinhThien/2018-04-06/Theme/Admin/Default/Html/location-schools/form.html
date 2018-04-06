@@ -1,0 +1,83 @@
+<section class="content">
+    <div class="row">
+        <!-- right column -->
+        <div class="col-md-4 left-form">
+            <form method="post" data-flag="false" action="{k:var url_current}" id="location-schools-form">
+                <div class="box">
+                    <div class="box-footer">
+                        <a href="{k:var url_list}" class="btn btn-default">Back to list</a>
+                        <input type="hidden" name="token" value="{k:var location_schools_form_token}" />
+                        <input type="hidden" name="commit" value="{k:var location_schools_form_commit}" />
+                        <input type="hidden" name="schools_id" value="{k:var schools_id}" />
+                        <button type="submit"  class="btn btn-info pull-right ml15">{k:var button_form}</button>
+                        <button type="button" id="view-maps" class="btn btn-success pull-right">View Maps</button>
+                    </div>
+                </div>
+                <!-- Horizontal Form -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Information Location Schools</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="box-body">
+                        <div class="form-group col-md-12">
+                            <label for="name">Schools Name</label>
+                            <input class="form-control" value="{k:var locationSchools.name}" form-valid="str:1:200" name="name" id="name" placeholder="Schools Name">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="point">Point</label>
+                            <input value="{k:var locationSchools.point}" step="0.01" value="1" min="1" class="form-control" form-valid="num:1:100" name="point" id="point" placeholder="Point">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>District</label>
+                            <select class="form-control district" form-valid="int:1" id="district" name="district_id" data-ajax="{k:var url_get_ward}">
+                                <option value="0">- District</option>
+                                <k:each listDistrict>
+                                    <option {k:each listDistrict.selected} value="{k:each listDistrict.id}">{k:each listDistrict.name}</option>
+                                </k:each listDistrict>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Ward</label>
+                            <select class="form-control ward" name="ward_id" id="ward" form-valid="int:0">
+                                <option value="0">- Ward</option>
+                                <k:each listWard>
+                                    <option {k:each listWard.selected} value="{k:each listWard.id}">{k:each listWard.name}</option>
+                                </k:each listWard>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="address">Address</label>
+                            <input class="form-control" value="{k:var locationSchools.address}" form-valid="str::200" name="address" id="address" placeholder="Address">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="street">Street</label>
+                            <input autocomplete="off" form-valid="str::200" value="{k:var locationSchools.street}" class="form-control" name="street" id="street" data-ajax="{k:var url_get_street}" placeholder="Street">
+                            <div class="form-street"></div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="lat">Position X</label>
+                            <input readonly form-valid="str::20" value="{k:var locationSchools.lat}" class="form-control" name="lat" id="lat" value="" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lng">Position Y</label>
+                            <input readonly form-valid="str::20" value="{k:var locationSchools.lng}" class="form-control" name="lng" id="lng" value="" />
+                        </div>
+                    </div>
+                <!-- /.box-body -->
+                </div>
+                
+        <!--/.col (right) -->
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <div id="maps">
+
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</section>

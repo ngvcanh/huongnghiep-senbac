@@ -1,0 +1,6 @@
+<select name="district" class="form-control" id="disctric" data-ajax="{k:var url_get_ward}">
+    <option value="0">- Phường/Xã</option>
+  <k:each listWard>
+      <option {k:each listWard.selected} value="{k:each listWard.id}">{k:each listWard.name}</option>
+  </k:each listWard>
+</select>
