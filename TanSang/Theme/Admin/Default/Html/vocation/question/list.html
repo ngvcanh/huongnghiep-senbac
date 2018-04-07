@@ -1,0 +1,50 @@
+<section class="content">
+    <div class="row"> 
+        <!-- right column -->
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">{k:var breadcrumb_title}</h3>
+            <a href="{k:var url_add}" class="btn btn-success btn-flat pull-right">Add</a>
+          </div>
+          <div class="box-body">
+            <table id="dataTable" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>ID Group</th>
+                    <th>Text</th>
+                    <th>Point</th>
+                    <th>ordering</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <k:each listVocationQuestion>
+                    <tr>
+                      <td>{k:each listVocationQuestion.id}</td>
+                      <td>{k:each listVocationQuestion.group_id}</td>
+                      <td>{k:each listVocationQuestion.question}</td>
+                      <td>{k:each listVocationQuestion.point}</td>
+                      <td>{k:each listVocationQuestion.ordering}</td>
+                      <td width="15%">
+                          <a href="{k:each listVocationQuestion.url_edit}" class="btn btn-success btn-xs">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                          <a class="btn btn-danger btn-xs deleteGroup" action="{k:each listVocationQuestion.url_delete}" method="post" data-id="{k:each listVocationQuestion.id}">
+                            <input type="hidden" name="token" value="{k:var vocation_question_detele_token}" />
+                            <input type="hidden" name="commit" value="{k:var vocation_question_delete_commit}" />
+                            <input type="hidden" name="id" value="{k:each listVocationQuestion.id}" />
+                            <i class="fa fa-trash"></i>
+                          </a>
+                      </td>
+                    </tr>
+                  </k:each listVocationQuestion>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </section>

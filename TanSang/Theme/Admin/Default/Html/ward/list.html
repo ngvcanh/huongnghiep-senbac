@@ -1,0 +1,91 @@
+<section class="content">
+  <div class="row"> 
+      <!-- right column -->
+    <div class="col-md-8">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">{k:var breadcrumb_title}</h3>
+        </div>
+        <div class="box-body">
+          <table id="dataTable" class="table table-bordered">
+              <thead>
+                  <tr>
+                    <th width="10%">ID</th>
+                    <th >Name</th>
+                    <th >District</th>
+                    <th width="10%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <k:each listWard>
+                    <tr method="post" action="{k:var url_current}" id="group-{k:each listWard.id}">
+                      <td>
+                        {k:each listWard.id}   
+                        <input type="hidden" name="id" value="{k:each listWard.id}" />
+                                            
+                      </td>
+                      <td>
+                        <input type="text" name="name" value="{k:each listWard.name}" class="form-control hidden-border" form-valid="str:1:200"/>                      
+                      </td>
+                      <td>
+                        <select class="form-control district" name="district_id">
+                          <k:each listDistrict> 
+                              <option {k:var ward_{k:each listWard.id}_{k:each listDistrict.id}} value="{k:each listDistrict.id}">{k:each listDistrict.name}</option>                                           
+                          </k:each listDistrict>
+                        </select>    
+                      </td>
+                      <td> 
+                        <input type="hidden" name="token" value="{k:var ward_form_edit_token}" />
+                        <input type="hidden" name="commit" value="{k:var ward_edit_commit}" />
+                        <a class="btn btn-success btn-xs editGroup" data-id="{k:each listWard.id}">
+                          <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-xs deleteGroup" action="{k:var url_current}" method="post" data-id="{k:each listDistrict.id}">
+                          <input type="hidden" name="token" disabled value="{k:var ward_detele_token}" />
+                          <input type="hidden" name="commit" disabled value="{k:var ward_delete_commit}" />
+                          <input type="hidden" name="id" value="{k:each listWard.id}" />
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </k:each listWard>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+        <form method="post"id="formMain" action="{k:var url_current}">
+            <div class="box box-primary"> 
+                <div class="box-header">
+                    <h3 class="box-title">{k:var form_name}</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="form-group col-md-12">
+                        <label for="name">Ward Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="District Name" value="{k:var group.name}" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="form-group">
+                            <label>Ward</label>
+                            <select class="form-control district" name="district_id">
+                                <option selected="selected" value="0">Select District</option>
+                                <k:each listDistrict> 
+                                    <option id="{k:each listDistrict.id}" value="{k:each listDistrict.id}">{k:each listDistrict.name}</option>                                           
+                                </k:each listDistrict>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="hidden" name="token" value="{k:var ward_create_token}" />
+                        <input type="hidden" name="commit" value="{k:var ward_create_commit}" />
+                        <button type="submit" class="btn btn-info pull-right">{k:var button_form}</button>
+                    </div>
+                    
+                </div> 
+            </div>
+        </form>
+    </div >
+  </div>
+  <!-- /.row -->
+</section>

@@ -1,0 +1,60 @@
+<!-- .right-sidebar -->
+<div class="right-sidebar" style="display: block;">
+    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+        <div class="slimscrollright" style="overflow: hidden; width: auto; height: 100%;">
+            <div class="rpanel-title"> Create Contact 
+                <span><i class="ti-close right-side-toggle"></i></span> 
+            </div>
+            <div class="r-panel-body">
+                <form class="form-horizontal senbacAjaxForm" method="post" action="{k:var url_contacts_create}">
+                    <div class="form-group">
+                        <label class="col-md-12" for="email">Email</label>
+                        <div class="col-md-12">
+                            <input type="email" id="email" name="email" form-valid="email:7:100" class="form-control"> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">First name</label>
+                        <div class="col-md-12">
+                            <input type="text" name="firstname" form-valid="str:1:100" class="form-control"> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Last name</label>
+                        <div class="col-md-12">
+                            <input type="text" name="lastname" form-valid="str:1:100" class="form-control"> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Onwer</label>
+                        <div class="col-md-12">
+                            <select class="form-control select2" name="owner_id">
+                                <option value="0">No Onwer</option>
+                                <k:each listaccounts>
+                                    <option value="{k:each listaccounts.id}" {k:each listaccounts.selected}>{k:each listaccounts.firstname} {k:each listaccounts.lastname}</option>
+                                </k:each listaccounts>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Job title</label>
+                        <div class="col-md-12">
+                            <input type="text" name="job_title" form-valid="str:0:200" class="form-control"> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12" style="text-align: center;">
+                            <input type="hidden" name="token" value="{k:var contacts_create_token}" />
+                            <input type="hidden" name="commit" value="{k:var contacts_create_commit}" />
+                            <input type="hidden" value="0" id="typesubmit" />
+                            <button type="submit" class="btn btn-info btn-rounded">Create Contact</button>
+                            <button class="btn btn-outline btn-rounded btn-warning right-side-toggle">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="slimScrollBar" style="background: rgb(220, 220, 220); width: 5px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div>
+        <div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+    </div>
+</div>
