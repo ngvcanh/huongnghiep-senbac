@@ -3,6 +3,16 @@
 		$(document).on('keyup', 'input.input_name', function(){
 			$('input.input_slug').val(chane_slug($(this).val()));
 		});
+
+		Validate.submit('#formMain', {
+			beforeValid : beforeValid,
+			validError : validError,
+			ajaxSuccess : ajaxSuccess,
+			ajaxError : ajaxError
+		});
+
+
+
 	});
 
 	function chane_slug(str) {

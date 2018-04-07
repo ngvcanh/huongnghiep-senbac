@@ -133,8 +133,7 @@
 
     $tpl->setFile([
         'content'         => 'vocation/group',
-        'sub_script'      => 'vocation/script',
-        'sub_style' 		=> 'vocation/css',
+        'sub_script'      => 'vocation/script'
     ]);
   
 

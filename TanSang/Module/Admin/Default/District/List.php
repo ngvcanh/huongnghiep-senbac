@@ -72,7 +72,7 @@
     $data = $validate->run();
 
     if ($validate->isFullValid()){
-        $response['message'] = 'Can not found.';
+        $response['message'] = 'Can not found id.';
         $id = $data['id'];
         $dataGroup = $model->getById($id);
 

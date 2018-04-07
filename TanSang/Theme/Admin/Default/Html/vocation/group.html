@@ -46,11 +46,11 @@
                     <div class="box-body no-padding">
                         <div class="form-group col-md-12">
                             <label for="name">Group Name</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Schools Name" value="{k:var group.name}" />
+                            <input form-valid="str:1:200" type="text" class="form-control" name="name" id="name" placeholder="Group Name" value="{k:var group.name}" />
                         </div>
                         <div class="form-group col-md-12">
                             <label for="ordering">Ordering</label>
-                            <input type="text" class="form-control" name="ordering" id="ordering" placeholder="Ordering" value="<k:if:var group.ordering>{k:var group.ordering}<k:else:var group.ordering>0</k:if:var group.ordering>"/>
+                            <input form-valid="int:0:9" type="text" class="form-control" name="ordering" id="ordering" placeholder="Ordering" value="<k:if:var group.ordering>{k:var group.ordering}<k:else:var group.ordering>0</k:if:var group.ordering>"/>
                         </div>
                         <div class="form-group col-md-12">
                             <input type="hidden" name="token" value="{k:var vocation_group_create_token}" />

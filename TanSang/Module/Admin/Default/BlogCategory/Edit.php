@@ -5,7 +5,7 @@ use Library\Session;
 use Library\Validate;
 use Application\Response;
 
-$tpl->merge('Page Not Fount1', 'site_title');
+$tpl->merge('Page Not Fount', 'site_title');
 $tpl->setFile([
     'content' => 'error/404'
 ]);

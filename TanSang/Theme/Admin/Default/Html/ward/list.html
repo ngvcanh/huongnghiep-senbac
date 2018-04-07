@@ -63,11 +63,11 @@
                 <div class="box-body no-padding">
                     <div class="form-group col-md-12">
                         <label for="name">Ward Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="District Name" value="{k:var group.name}" />
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Ward Name" value="{k:var group.name}" form-valid="str:1:200" />
                     </div>
                     <div class="form-group col-md-12">
                         <div class="form-group">
-                            <label>Ward</label>
+                            <label>District name</label>
                             <select class="form-control district" name="district_id">
                                 <option selected="selected" value="0">Select District</option>
                                 <k:each listDistrict> 

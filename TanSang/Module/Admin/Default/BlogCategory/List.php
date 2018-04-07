@@ -2,6 +2,9 @@
   defined('K_ROOT') || die(pathinfo(__FILE__, PATHINFO_FILENAME));
   use Library\URL;
 
+  $tokenCreateName        = 'blog_category_form_token';
+  $commitCreateName       = 'Blog_Category_Form_Commit';
+
   $listCate = $model->getListCategory();
 
   while($row = $model->fetch($listCate)){
@@ -22,6 +25,12 @@
   $tpl->merge('Blog category manager', 'breadcrumb_name');
   $tpl->merge('List', 'breadcrumb_action');
   $tpl->merge('Data List Categoty', 'breadcrumb_title');
+
+  $strToken = $token->generate(32);
+  Session::add($tokenCreateName, $strToken);
+
+  $tpl->merge($strToken, $tokenCreateName);
+  $tpl->merge($commitCreateName, 'blog_category_form_commit');
 
   $tpl->setFile([
     'content' 		=> 'blog-category/list',
