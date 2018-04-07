@@ -1,0 +1,240 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUqU4CmDvm8K8nArTXW6nXpOH7csCTGLg&libraries=places&callback=initAutocomplete"
+         async defer></script>
+<script type="text/javascript">
+  var markers = [], map;
+  $(document).ready(function(){
+  
+    $('.left-form').css('height', window.innerHeight);
+    var height = $('.left-form').height() - 25 + 'px';
+    $('#maps').css("height", height);
+
+    $(document).on('keyup', 'input#street', function(){
+      var name = $(this).val();
+      if(name.length > 0){
+        $('div.form-street').addClass('active').html('');
+        $.post(
+          $(this).attr('data-ajax'),
+          {
+            name
+          },function(data){
+            if(data.length > 0){
+              $('div.form-street').html(data);
+            }
+          }
+        )
+      }
+      else $('div.form-street').removeClass('active');
+    });
+
+    $(document).on('click', 'div.form-street ul li', function(){
+      $('input#street').val($(this).text());
+      $('div.form-street').html('').removeClass('active');
+    });
+
+    $(document).on('focusout', 'input#street', function(event){
+      if($(event.nextElementSibling).hasClass('active'))
+        $('div.form-street').removeClass('active');
+    });
+
+    $(document).on('change', 'select.district', function(){
+      var id = $(this).val();
+      if(parseInt(id) >= 0){
+        $.post(
+          $(this).attr('data-ajax'),
+          {
+            id: id
+          },function(data){
+            if(data.length > 0){
+              $('select.ward').html(data);
+            }
+          }
+        )
+      }
+    });
+
+    Validate.submit('#location-schools-form', {
+      beforeValid   : beforeValid,
+      validError    : validError,
+      doAjax        : false,
+      handlingForm  : function(selector){
+        var flag = $('#location-schools-form').attr('data-flag') === 'true' ? true : false;
+        if (flag === false){
+          var loca = getAddressSchools();
+          getPositionLocation(loca, function(data){
+            if(data.results.length > 0){
+              var {lat, lng} = data.results[0].geometry.location;
+              $('#lat').val(lat);
+              $('#lng').val(lng);
+
+              Validate.action(selector, {
+                ajaxSuccess : ajaxSuccess,
+                ajaxError   : ajaxError
+              });
+            }
+            else Alert.popup({
+              title     : 'Location Error',
+              classes   : 'error',
+              message   : 'Adrress data not found',
+              btn       : [{
+                label     : 'OK',
+                color     : 'red',
+                isFocus   : true,
+                fn        : Alert.close
+              }]
+            });
+          });
+        }
+        else {
+          Validate.action(selector, {
+            ajaxSuccess : ajaxSuccess,
+            ajaxError   : ajaxError
+          });
+        } 
+      }
+    });
+
+    function getPositionLocation(loca, callback){
+      $.get(
+        'https://maps.googleapis.com/maps/api/geocode/json?address='+ loca +'&sensor=false',
+        function(data){
+          if (!!callback && Function === callback.constructor){
+            callback(data);
+          }
+        }
+      );
+    }
+    
+    function getAddressSchools(){
+      var schools   = $('#name').val();
+      var address   = '';
+      var street    = '';
+      var district  = '';
+      var ward      = '';
+
+      if ($('#address').val().length > 0) address   = ' ' + $('#address').val();
+      if ($('#street').val().length > 0) street     = ' ' + $('#street').val();
+      if (+$('#district').val() > 0){
+        var district_id = $('#district').val(),
+        district = ', ' + $('#district').find('option[value=' + district_id + ']').text();
+      } 
+      if (+$('#ward').val() > 0){
+        var ward_id = $('#ward').val(),
+        ward = ', ' + $('#ward').find('option[value=' + ward_id + ']').text();
+      }
+      return (schools + address + street + ward + district);
+    }
+
+    $(document).on('click', '#view-maps', function(){
+      var loca = getAddressSchools();
+      if (loca.length > 0){
+        getPositionLocation(loca, function(data){
+          if(data.results.length > 0){
+            var {lat, lng} = data.results[0].geometry.location;
+            $('#lat').val(lat);
+            $('#lng').val(lng);
+            $('#location-schools-form').attr('data-flag', 'true');
+            setMap(map, {lat, lng});
+          }
+          else Alert.popup({
+            title     : 'Location Error',
+            classes   : 'error',
+            message   : 'Adrress data not found',
+            btn       : [{
+              label     : 'OK',
+              color     : 'red',
+              isFocus   : true,
+              fn        : Alert.close
+            }]
+          });
+        });
+      }
+      else Alert.popup({
+            title     : 'Messages',
+            classes   : 'error',
+            message   : 'Enter Address',
+            btn       : [{
+              label     : 'OK',
+              color     : 'red',
+              isFocus   : true,
+              fn        : Alert.close
+            }]
+          });
+    });
+
+  });
+
+  function initAutocomplete() {
+    var lat = 0;
+    var lng = 0;
+    map = new google.maps.Map(document.getElementById('maps'), {
+      center: {lat:  10.786019, lng: 106.636922},
+      zoom: 13,
+      mapTypeId: 'roadmap'
+    });
+
+    if($('#lat').val().length > 0 && $('#lng').val().length > 0){
+      lat = parseFloat($('#lat').val());
+      lng = parseFloat($('#lng').val());
+      setMap(map, {lat, lng});
+    }
+    else{
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(pos);
+        });
+      }
+    }
+
+    map.addListener('click', function(e) {
+      deleteMarkers();
+      if(markers.length < 1){
+        var lat = e.latLng.lat(),
+            lng =  e.latLng.lng();
+        $('#lat').val(lat);
+        $('#lng').val(lng);
+        $('#location-schools-form').attr('data-flag', 'true');
+        setMap(map, {lat, lng});
+     }  
+    });
+  }
+
+  function addMarker(loca) {
+    var marker = new google.maps.Marker({
+      position: loca,
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+    markers.push(marker);
+  }
+
+  function setMapOnAll(map) {
+    markers.forEach((marker) => {
+      marker.setMap(map);
+    });
+  }
+
+  function setMap(map, loca){
+    deleteMarkers();
+    addMarker(loca);
+    setCenterMap(markers[0], loca);
+    map.setCenter(loca);
+  }
+
+  function setCenterMap(marker, loca){
+    marker.setMap(map);
+  }
+
+  function deleteMarkers() {
+    setMapOnAll(null);
+    markers = [];
+  }
+
+  function showMarkers() {
+    setMapOnAll(map);
+  }
+
+</script>

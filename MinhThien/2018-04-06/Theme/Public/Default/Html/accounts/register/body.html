@@ -1,0 +1,71 @@
+<body>
+  <h1>Điền Đầy Đủ Thông Tin Cá Nhân</h1>
+  <div class="w3l-main">
+    <div class="w3l-from">
+      <form action="#" method="post">
+        <div class="w3l-user">
+          <label class="head">Họ và Tên<span class="w3l-star"> * </span></label>
+          <input type="text" name="Athlete's Name" placeholder="" required="">
+        </div>
+        <div class="w3l-mail">
+          <label class="head">Địa Chỉ Email<span class="w3l-star"> * </span></label>
+          <input type="email" name="email" placeholder="" required="">
+        </div>
+        <div class="w3l-mail">
+          <label class="head">Mật Khẩu<span class="w3l-star"> * </span></label>
+          <input type="password" name="password" placeholder="" required="">
+        </div>
+        <div class="clear"></div>
+        <div class="w3l-details1">
+          <div class="w3l-num">
+            <label class="head">Số Điện Thoại<span class="w3l-star"> * </span></label>
+            <input type="text"  name="phone" placeholder="" required="">
+          </div>
+          <div class="w3l-date">
+            <label class="head">Ngày Sinh<span class="w3l-star"> * </span></label>
+            <div class="styled-input">
+              <input class="date" id="datepicker" name="date" type="text" value="MM/DD/YYYY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="gender">
+            <label class="head">Giới Tính<span class="w3l-star"> * </span></label>	
+            <select class="form-control" required="">
+              <option>Nam</option>
+              <option>Nữ</option>
+            </select>
+          </div>
+          <div class="w3l-options2">
+            <label class="head">Lớp<span class="w3l-star"> * </span></label>	
+            <select class="category2" required="">
+              <option value="">Lớp 1</option>
+              <option value="">Grade-1</option>
+              <option value="">Grade-2</option>
+              <option value="">Grade-3</option>
+              <option value="">Grade-4</option>
+              <option value="">Grade-5</option>
+              <option value="">Grade-6</option>
+              <option value="">Grade-7</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="w3l-rem">
+          <div class="btn">
+            <input type="submit" name="submit" value="Submit"/>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </form>
+    </div>
+  </div>
+  </footer>
+  <script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/jquery-3.3.1.min.js"></script>
+  <script src="{k:var url_project}/Theme/Public/Default/Js/plugins/jquery-ui.js"></script>
+  <script>
+    $(function() {
+    $( "#datepicker,#datepicker1" ).datepicker();
+    });
+  </script>
+</body>

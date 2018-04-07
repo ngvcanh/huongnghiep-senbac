@@ -1,0 +1,232 @@
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/jquery-3.3.1.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUqU4CmDvm8K8nArTXW6nXpOH7csCTGLg&libraries=places&callback=initAutocomplete"
+     async defer></script>
+     <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA7j_Q-rshuWkc8HyFI4V2HxQYPm-xtd00hTQOC0OXpAMO40FHAxT29dNBGfxqMPq5zwdeiDSHEPL89A" type="text/javascript"></script>
+
+<script src="{k:var url_project}/Theme/Public/Default/Js/classie.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/alert.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/validate.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/function.js"></script>
+
+<script>
+  var menuLeft 		= document.getElementById( 'cbp-spmenu-s1' ),
+    showLeftPush = document.getElementById( 'showLeftPush' ),
+    body = document.body;
+  
+  showLeftPush.onclick = function() {
+    classie.toggle( this, 'active' );
+    classie.toggle( body, 'cbp-spmenu-push-toright' );
+    classie.toggle( menuLeft, 'cbp-spmenu-open' );
+    disableOther( 'showLeftPush' );
+  };
+  
+  function disableOther( button ) {
+    if( button !== 'showLeftPush' ) {
+      classie.toggle( showLeftPush, 'disabled' );
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  var markers = [], map;
+  var icon = {
+      url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      size: new google.maps.Size(100, 100),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(30, 30)
+    };
+  function initAutocomplete() {
+
+    map = new google.maps.Map(document.getElementById('res-map'), {
+      center: {lat:  10.786019, lng: 106.636922},
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    
+    if($('#address').val().length > 0){
+      getPositionLocation($('#address').val(), function(data){
+        if(data.status == 'OK'){
+          var {lat, lng} = data.results[0].geometry.location;
+          var title = data.results[0].formatted_address;
+          setMap(map, {lat, lng}, title, icon);
+          getPositionSchool({lat, lng}, function(data){
+              if(data.maps.length > 0){
+                setMarker(data.maps, icon);
+              }
+              Alert.popup({
+                title     : data.title,
+                classes   : data.status,
+                message   : data.message,
+                btn       : [{
+                  label     : 'OK',
+                  color     : (data.status == 'error' ? 'red' : 'success'),
+                  isFocus   : true,
+                  fn        : Alert.close
+                }]
+              });
+              
+            });
+        }else{
+          Alert.popup({
+            title     : 'Location Error',
+            classes   : 'error',
+            message   : 'Vị Trí Của bạn không được tìm thấy!',
+            btn       : [{
+              label     : 'OK',
+              color     : 'red',
+              isFocus   : true,
+              fn        : Alert.close
+            }]
+          });
+        }
+      });
+    }
+    else{
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(pos);
+        });
+      }
+    }
+  }
+
+  $(document).ready(function(){
+    $('#res-map').css({"min-height": window.innerHeight });
+
+    Validate.submit('#submit-form-search', {
+      beforeValid : beforeValid,
+      validError : validError,
+      doAjax : false,
+      handlingForm : function(selector){
+        var address = $('input#address').val();
+        getPositionLocation(address, function(data){
+          if(data.status == 'OK'){
+            var {lat, lng} = data.results[0].geometry.location;
+            var title = data.results[0].formatted_address;
+            setMap(map, {lat, lng}, title, icon);
+            getPositionSchool({lat, lng}, function(data){
+              if(data.maps.length > 0){
+                setMarker(data.maps, icon);
+              }
+              Alert.popup({
+                title     : data.title,
+                classes   : data.status,
+                message   : data.message,
+                btn       : [{
+                  label     : 'OK',
+                  color     : (data.status == 'error' ? 'red' : 'success'),
+                  isFocus   : true,
+                  fn        : Alert.close
+                }]
+              });
+              
+            });
+          }else{
+            Alert.popup({
+              title     : 'Location Error',
+              classes   : 'error',
+              message   : 'Vị Trí Của bạn không được tìm thấy!',
+              btn       : [{
+                label     : 'OK',
+                color     : 'red',
+                isFocus   : true,
+                fn        : Alert.close
+              }]
+            });
+          }
+        });
+      }
+  });
+  });
+
+  function addMarker(loca, title = null, icon = null) {
+    var marker = new google.maps.Marker({
+      position: loca,
+      map: map,
+      title: title,
+      icon: icon,
+      animation: google.maps.Animation.DROP
+    });
+    markers.push(marker);
+  }
+
+  function setMarker(locas, title = null, icon = null){
+    locas.forEach((loca) => {
+      addMarker(loca, title, icon);
+    });
+  }
+
+  function setMapOnAll(map) {
+    markers.forEach((marker) => {
+      marker.setMap(map);
+    });
+  }
+
+  function setMap(map, loca, title = null, icon = null){
+    deleteMarkers();
+    addMarker(loca, title, icon);
+    setCenterMap(markers[0], loca);
+    map.setCenter(loca);
+  }
+
+  function setCenterMap(marker, loca){
+    marker.setMap(map);
+  }
+
+  function deleteMarkers() {
+    setMapOnAll(null);
+    markers = [];
+  }
+
+  function showMarkers() {
+    setMapOnAll(map);
+  }
+
+  function getPositionLocation(loca, callback){
+    $.get(
+      'https://maps.googleapis.com/maps/api/geocode/json?address='+ loca +'&sensor=false',
+      function(data){
+        if (!!callback && Function === callback.constructor){
+          callback(data);
+        }
+      }
+    );
+  }
+
+  function getPositionSchool(loca, callback){
+    var address       = $('#address').val();
+    var match         = $('#point_match').val();
+    var literature    = $('#point_literature').val();
+    var more          = $('#point_more').val();
+    var about_km      = $('#about_km').val();
+    var about_point   = $('#about_point').val();
+    var token         = $('#token').val();
+    var commit        = $('#commit').val();
+    var {lat, lng}            = loca;
+    $.post(
+      $('#submit-form-search').attr('data-ajax'),
+      {
+        address,
+        match,
+        literature,
+        more,
+        about_km,
+        about_point,
+        token,
+        commit,
+        lat,
+        lng
+      },function(data){
+        if (!!callback && Function === callback.constructor){
+          callback(data);
+        }
+      },'json'
+    );
+  }
+
+</script>

@@ -1,0 +1,70 @@
+<body>
+  <div class="banner-layer">
+    <div class="logo text-center">
+      <h1>
+        <a href="index.html">
+        <span class="fa fa-map-marker" aria-hidden="true"></span>Tra Cứu</a>
+      </h1>
+    </div>
+    <div class="w3ls-container   text-center">
+      <div class="w3l-content">
+        <div class="right-grid">
+          <div class="sub-form">
+            <form method="post" action="{k:var url_current}" class="form-inline" id="form-map">
+              
+              <div class="form-group col-md-3 full">
+                <label for="address">Địa Chỉ</label>
+                  <input id="address" name="address" form-valid="str:3:200" class="form-control"  placeholder="Nhập Địa Chỉ Của Bạn">
+              </div>
+              <div class="form-group col-md-3 full">
+                <label for="street">Đường</label>
+                <input id="street" name="street" form-valid="str:3:200" class="form-control"  placeholder="Nhập Địa Chỉ Của Bạn">
+              </div>
+              <div class="form-group col-md-3 full">
+                <label for="address">Phường/Xã</label>
+                <select id="ward_id" name="ward_id" class="form-control" form-valid="int:0">
+                  <option value="0">- Phường/Xã</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3 full">
+                <label for="address">Quận/Huyện</label>
+                <select name="district_id" form-valid="int:1" class="form-control" id="district_id" data-ajax="{k:var url_get_ward}">
+                    <option value="0">- Quận/Huyện</option>
+                  <k:each listDistrict>
+                      <option {k:each listDistrict.selected} value="{k:each listDistrict.id}">{k:each listDistrict.name}</option>
+                  </k:each listDistrict>
+                </select>
+              </div>
+              <div class="form-group col-md-4 full">
+                 <label for="point_match">Điểm Toán</label>
+                 <input id="point_match" form-valid="int:0:10" name="point_match" class="form-control" placeholder="Điểm Toán">
+              </div>
+              <div class="form-group col-md-4 full">
+                 <label  for="point_literature">Điểm Ngử Văn</label>
+                 <input  class="form-control" form-valid="int:0:10" name="point_literature" id="point_literature" placeholder="Điểm Ngử Văn">
+              </div>
+              <div class="form-group col-md-4 full">
+                 <label for="point_more">Điểm Môn Phụ</label>
+                 <input  class="form-control" form-valid="int:0:10" name="point_more" id="point_more" placeholder="Điểm Môn Phụ">
+              </div>
+              <div class="form-group col-md-6 full">
+                 <label for="about_km"> Khoảng Cách Đường</label>
+                  <input type="range" name="about_km" form-valid="int:0:100" value="0" max="100" min="0" class="form-control" id="about_km" placeholder="Khoảng Cách">
+                </div>
+                <div class="form-group col-md-6 full">
+                 <label for="about_point"> Khoảng Cách Điểm</label>
+                  <input type="range" name="about_point" form-valid="int:0:100" value="0" max="100" min="0" class="form-control" id="about_point" placeholder="Khoảng Cách">
+                </div>
+                <input type="hidden" name="token" value="{k:var maps_form_token}">
+                <input type="hidden" name="commit" value="{k:var maps_form_commit}">
+              <button type="submit" class="btn1 mt30">
+                <span class="fa fa-paper-plane" aria-hidden="true"></span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <k:inc sub_script>
+</body>
