@@ -11,4 +11,26 @@
           "autoWidth": true
         });
       });
+
+  $(document).on('click', '.deleteGroup', function(){
+
+    var $sefl = this, DoDelete = function(){
+      Validate.action($sefl, {
+        ajaxSuccess : ajaxSuccess,
+        ajaxError : ajaxError
+      });
+    };
+
+    Alert.popup({
+    title: "Delete",
+    classes: "warning",
+    message: "Are you sure delete blog category?",
+    btn : [
+      {label: 'Cancel', color: 'orange', isFocus: true, fn: Alert.close},
+      {label: 'Delete', color: 'orange', fn: DoDelete}
+    ]
+    });
+
+    return false;
+  });
 </script>

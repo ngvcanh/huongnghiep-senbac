@@ -1,9 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(document).on('keyup', 'input.input_name', function(){
-			$('input.input_slug').val(chane_slug($(this).val()));
-		});
-
+		
 		Validate.submit('#formMain', {
 			beforeValid : beforeValid,
 			validError : validError,
@@ -11,8 +8,9 @@
 			ajaxError : ajaxError
 		});
 
-
-
+		$(document).on('keyup', 'input.input_name', function(){
+			$('input.input_slug').val(chane_slug($(this).val()));
+		});
 	});
 
 	function chane_slug(str) {

@@ -1,24 +1,47 @@
 <?php
   defined('K_ROOT') || die(pathinfo(__FILE__, PATHINFO_FILENAME));
+  
   use Library\URL;
+  use Library\Session;
+  use Library\Validate;
+  use Application\Response;
+  
+  $tokenDeleteName        = 'blog_category_form_token';
+  $commitDeleteName       = 'Blog_Category_Form_Commit';
 
-  $tokenCreateName        = 'blog_category_form_token';
-  $commitCreateName       = 'Blog_Category_Form_Commit';
+  if (validate_token_commit($post, $tokenDeleteName, $commitDeleteName)){
+    $response = ['message' => 'Data invalid.', 'status' => 'error'];
+  
+    $rules = [
+      'id' => ['type' => 'int', 'min' => 1],
+    ];
+    $columns = array_keys($rules);
+  
+    $validate = Validate::getInstance($rules, $columns)->setSource($post);
+    $data = $validate->run();
+  
+    if ($validate->isFullValid()){
+      $response = ['message' => 'Delete success.', 'status' => 'success'];
+      $id = $data['id'];
+      $result = $model->deleteById($id);
+    } 
+  
+    $this->response = $response;
+    new Response('Content-Type: application/json', function(){
+        return $this->response;
+    });
+  
+}
+
+
+  $thisModule = 'blog-category';
 
   $listCate = $model->getListCategory();
 
   while($row = $model->fetch($listCate)){
+    $row->url_edit = URL::create([K_URL_DASH, $thisModule, 'edit',$row->id]);
+    $row->url_delete = URL::create([K_URL_DASH, $thisModule, 'list', $row->id]);
     $tpl->assign($row, 'listBlogCate');
-
-    $thisModule = 'blog-category';
-    $url_edit_cate_blog = URL::create([K_URL_DASH, $thisModule, 'edit',$row->id]);
-    $url_delete_cate_blog = URL::create([K_URL_DASH, $thisModule, 'delete',$row->id]);
-    
-    $tpl->assign([
-      'edit' => $url_edit_cate_blog,
-      'delete' => $url_delete_cate_blog
-    ], 
-    'listBlogCate.url_cate_blog');
   }
 
   $tpl->assign(['name' => 'List'], 'breadcrumb');
@@ -27,10 +50,10 @@
   $tpl->merge('Data List Categoty', 'breadcrumb_title');
 
   $strToken = $token->generate(32);
-  Session::add($tokenCreateName, $strToken);
+  Session::add($tokenDeleteName, $strToken);
 
-  $tpl->merge($strToken, $tokenCreateName);
-  $tpl->merge($commitCreateName, 'blog_category_form_commit');
+  $tpl->merge($strToken, $tokenDeleteName);
+  $tpl->merge($commitDeleteName, 'blog_category_form_commit');
 
   $tpl->setFile([
     'content' 		=> 'blog-category/list',

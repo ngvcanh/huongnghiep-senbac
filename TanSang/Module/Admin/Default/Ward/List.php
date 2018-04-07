@@ -19,7 +19,8 @@
     $response = ['message' => 'Data invalid.', 'status' => 'error'];
 
     $rules = [
-      'name' => ['type' => 'string', 'min' => 1, 'max' => 200]
+      'name' => ['type' => 'string', 'min' => 1, 'max' => 200],
+      'district_id' => ['type' => 'int', 'min' => 1]
     ];
     $columns = array_keys($rules);
 
@@ -64,7 +65,8 @@
     $response = ['message' => 'Data invalid.', 'status' => 'error'];
     $rules = [
       'id' => ['type' => 'int', 'min' => 1],
-      'name' => ['type' => 'string', 'min' => 1, 'max' => 200]
+      'name' => ['type' => 'string', 'min' => 1, 'max' => 200],
+      'district_id' => ['type' => 'int', 'min' => 1]
     ];
     $columns = array_keys($rules);
 

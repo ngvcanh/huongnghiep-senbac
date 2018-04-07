@@ -3,7 +3,7 @@
         
         <!-- right column -->
         <div class="col-md-12">
-            <form method="post" action="{k:var url_current}" id="formMain" class="mainform">
+            <form enctype="multipart/form-data" method="post" action="{k:var url_current}" id="formMain">
 
                 <div class="box">
                     <div class="box-footer">
@@ -25,34 +25,42 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Category name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="name" value="{k:var category.name}" class="form-control input_name" form-valid="str:1:200" placeholder="Category name">
-                                    <span class="help-block hidden">Input text minimun 1 and maximun 200 character.</span>
+                                    <input type="text" name="name" value="{k:var blogCategory.name}" class="form-control input_name" form-valid="str:1:200" placeholder="Category name">
+                                    <!-- <span class="help-block hidden">Input text minimun 1 and maximun 200 character.</span> -->
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Category slug</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="slug" value="{k:var category.slug}" class="form-control input_slug" form-valid="str:1:200" placeholder="Category slug" readonly>
+                                    <input type="text" name="slug" value="{k:var blogCategory.slug}" class="form-control input_slug" form-valid="str:1:200" placeholder="Category slug" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" form-valid="str:0:500">Description</label>
+                                <label class="col-sm-2 control-label">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea name="description" class="form-control" rows="3" placeholder="Description">{k:var category.description}</textarea>
+                                    <textarea name="description" class="form-control" form-valid="str:0:500" rows="3" placeholder="Description">{k:var blogCategory.description}</textarea>
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Ordering</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="ordering" value="<k:if:var blogCategory.ordering>{k:var blogCategory.ordering}<k:else:var blogCategory.ordering>0</k:if:var blogCategory.ordering>" class="form-control ordering" form-valid="int:0" placeholder="Ordering">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Parent</label>
                                 <div class="col-sm-10">
                                     <select name="parent" class="form-control">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                        <option>option 5</option>
+                                        <option value="0">Parent</option>
+                                        <k:each listBlogCate> 
+                                            <option {k:each:if listBlogCate:classes}selected{/k:each:if listBlogCate:classes} value="{k:each listBlogCate.id}">{k:each listBlogCate.name}</option>
+                                            <k:each listBlogCate.listSubCate> 
+                                                <option {k:each:if listBlogCate.listSubCate:classes}selected{/k:each:if listBlogCate.listSubCate:classes} value="{k:each listBlogCate.listSubCate.id}">&emsp;&emsp;{k:each listBlogCate.listSubCate.name}</option>
+                                            </k:each listBlogCate.listSubCate>
+                                        </k:each listBlogCate>
                                     </select>
                                 </div>
                             </div>
@@ -61,7 +69,7 @@
                                 <label class="col-sm-2 control-label">Image</label>
                                 <div class="col-sm-10">
                                     <input type="file" name="image" />
-                                    <p class="help-block">Example block-level help text here.</p>
+                                    <p class="help-block">Upload your image</p>
                                 </div>
                             </div>
 
@@ -82,21 +90,21 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">SEO title</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="title" value="{k:var category.title}" class="form-control" placeholder="SEO title">
+                                    <input type="text" form-valid="str:0:200" name="title" value="{k:var blogCategory.title}" class="form-control" placeholder="SEO title">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">SEO keywords</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="keywords" value="{k:var category.keywords}" class="form-control" placeholder="SEO keywords">
+                                    <input type="text" name="keywords" value="{k:var blogCategory.keywords}" class="form-control" placeholder="SEO keywords">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">SEO description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" name="seo_desc" rows="3" placeholder="SEO description">{k:var category.seo_desc}</textarea>
+                                    <textarea class="form-control" name="seo_desc" rows="3" placeholder="SEO description">{k:var blogCategory.seo_desc}</textarea>
                                 </div>
                             </div>
 
@@ -105,42 +113,42 @@
                             <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">SEO H1</label>
                             <div class="col-sm-10">
-                                <input type="text" name="seo_h1" value="{k:var category.seo_h1}" class="form-control" placeholder="SEO H1">
+                                <input type="text" name="seo_h1" value="{k:var blogCategory.seo_h1}" class="form-control" placeholder="SEO H1">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">SEO H2</label>
                             <div class="col-sm-10">
-                                <input type="text" name="seo_h2" value="{k:var category.seo_h2}" class="form-control" placeholder="SEO H2">
+                                <input type="text" name="seo_h2" value="{k:var blogCategory.seo_h2}" class="form-control" placeholder="SEO H2">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">SEO H3</label>
                             <div class="col-sm-10">
-                                <input type="text" name="seo_h3" value="{k:var category.seo_h3}" class="form-control" placeholder="SEO H3">
+                                <input type="text" name="seo_h3" value="{k:var blogCategory.seo_h3}" class="form-control" placeholder="SEO H3">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">SEO H4</label>
                             <div class="col-sm-10">
-                                <input type="text" name="seo_h4" value="{k:var category.seo_h4}" class="form-control" placeholder="SEO H4">
+                                <input type="text" name="seo_h4" value="{k:var blogCategory.seo_h4}" class="form-control" placeholder="SEO H4">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">SEO H5</label>
                             <div class="col-sm-10">
-                                <input type="text" name="seo_h5" value="{k:var category.seo_h5}" class="form-control" placeholder="SEO H5">
+                                <input type="text" name="seo_h5" value="{k:var blogCategory.seo_h5}" class="form-control" placeholder="SEO H5">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">SEO H6</label>
                             <div class="col-sm-10">
-                                <input type="text" name="seo_h6" value="{k:var category.seo_h6}" class="form-control" placeholder="SEO H6">
+                                <input type="text" name="seo_h6" value="{k:var blogCategory.seo_h6}" class="form-control" placeholder="SEO H6">
                             </div>
                         </div>
 

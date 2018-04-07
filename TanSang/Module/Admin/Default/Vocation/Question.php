@@ -21,14 +21,9 @@
         $data = $validate->run();
       
         if ($validate->isFullValid()){
-          $id = 0;
-      
-          if (isset($dirURL[2]) && is_numeric($dirURL[2])){
-      
-            $id = $dirURL[2];
-          }
-          $response = ['message' => 'Delete success.', 'status' => 'success'];
-          $result = $model->deleteQuestionById($id);
+            $response = ['message' => 'Delete success.', 'status' => 'success'];
+            $id = $data['id'];
+            $result = $model->deleteQuestionById($id);
         } 
       
         $this->response = $response;

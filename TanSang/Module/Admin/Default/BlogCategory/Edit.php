@@ -3,6 +3,7 @@ defined('K_ROOT') || die(pathinfo(__FILE__, PATHINFO_FILENAME));
 use Library\URL;
 use Library\Session;
 use Library\Validate;
+use Library\File;
 use Application\Response;
 
 $tpl->merge('Page Not Fount', 'site_title');
@@ -16,37 +17,61 @@ $tpl->merge('Page not found', 'breadcrumb_action');
 
 if (isset($dirURL[2]) && is_numeric($dirURL[2])){
     $id = $dirURL[2];
-    $locationSchools = $model->getLocationById($id);
+    $blogCategory = $model->getCategoryById($id);
 
-    if (isset($locationSchools->id)){
+    if (isset($blogCategory->id)){
 
-      $tpl->merge($id, 'schools_id');
-      $tokenName = 'location_schools_form_token';
-      $commitName = 'Location_Schools_Edit';
+      $tokenName = 'blog_category_form_token';
+      $commitName = 'Blog_Category_Edit';
 
       if (validate_token_commit($post, $tokenName, $commitName)){
         $response = ['message' => 'Data invalid.', 'status' => 'error'];
   
-        $rules = [
+        $rules = [ 
           'name'        => ['type' => 'string', 'min' => 1, 'max' => 200],
-          'point'       => ['type' => 'dble', 'min' => 1, 'max' => 100],
-          'district_id' => ['type' => 'int', 'min' => 1],
-          'ward_id'     => ['type' => 'int', 'min' => 0],
-          'street'      => ['type' => 'string', 'min' => 0, 'max' => 200],
-          'address'     => ['type' => 'string', 'min' => 0, 'max' => 200],
-          'lat'         => ['type' => 'string', 'min' => 1, 'max' => 20],
-          'lng'         => ['type' => 'string', 'min' => 1, 'max' => 20],
-          'schools_id'  => ['type' => 'int', 'in' => [$id]]
+          'slug'        => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'description' => ['type' => 'string', 'min' => 0, 'max' => 500],
+          'ordering'    => ['type' => 'int', 'min' => 0],
+          'parent'      => ['type' => 'int', 'min' => 0],
+          'title'       => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'keywords'    => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'seo_desc'    => ['type' => 'string', 'min' => 0, 'max' => 500],
+          'seo_h1'      => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'seo_h2'      => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'seo_h3'      => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'seo_h4'      => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'seo_h5'      => ['type' => 'string', 'min' => 0, 'max' => 200],
+          'seo_h6'      => ['type' => 'string', 'min' => 0, 'max' => 200]
         ];
         $columns = array_keys($rules);
         
         $validate = Validate::getInstance($rules, $columns)->setSource($post);
         $data = $validate->run();
-        if ($validate->isFullValid()){     
-          $response['message'] = 'Can not update School info';
-          $result =  $model->updateSchoolByID($data, $id);
 
-          if($result){
+        if ($validate->isFullValid()){     
+          $result = 1 ;
+          if(isset($files['image'])){
+            $response['message'] = 'Can not upload Image.';
+            $result = 0 ;
+
+            $image = $files['image']['tmp_name'][0];
+            $path = $files['image']['name'][0];
+            $ext = pathinfo($path, PATHINFO_EXTENSION);
+            $dir = 'Data\Uploads\Images';
+            if(!File::isDir( $dir)) File::mkdir($dir);
+
+            if(File::isFile($image)){
+                do{
+                    $filename = $token->generate(32);
+                    $fileSave = $dir . '\\' . $filename . '.' . $ext;
+                }while (File::exist($fileSave));
+
+                $data['image'] =  $fileSave;
+                $result = copy($image,$fileSave);
+            }
+          }
+          if($result == 1){
+            $model->updateById($id, $data);
             $response = ['message' => 'Update success', 'status' => 'success'];
           }
         }
@@ -54,43 +79,39 @@ if (isset($dirURL[2]) && is_numeric($dirURL[2])){
         $this->response = $response;
         new Response('Content-Type: application/json', function(){
           return $this->response;
-        });
-      
+        });      
       }
 
-      $tpl->merge($locationSchools, 'locationSchools');
+      $tpl->merge($blogCategory, 'blogCategory');
 
-      $listDistrict = $model->getListDistrict();
-      while($rowDistrict = $model->fetch($listDistrict)){
-        if($rowDistrict->id == $locationSchools->district_id) $rowDistrict->selected = 'selected="selected"';
-        $tpl->assign($rowDistrict, 'listDistrict');
+      $listCate = $model->getListCategory(['parent' => 0]);
+
+      while($row = $model->fetch($listCate)){
+
+        if($row->id == $blogCategory->parent) $row->classes = 'selected'; 
+        $tpl->assign($row, 'listBlogCate');
+        $listSubCate = $model->getListCategory(['parent' => $row->id]);
+
+        while($row1 = $model->fetch($listSubCate)){ 
+
+            if($row1->id == $blogCategory->parent) $row1->classes = 'selected'; 
+            $tpl->assign($row1, 'listBlogCate.listSubCate');    
+        }
       }
 
-      $listWard = $model->getListWard(['district_id' => $locationSchools->district_id]);
-      while($rowWard = $model->fetch($listWard)){
-        if($rowWard->id == $locationSchools->ward_id) $rowWard->selected = 'selected="selected"';
-        $tpl->assign($rowWard, 'listWard');
-      }
-
-      $url_get_street =  URL::create([K_URL_DASH, $thisModule, 'ajax-get-street']);
-      $url_get_ward =  URL::create([K_URL_DASH, $thisModule, 'ajax-get-ward']);
-      $tpl->merge($url_get_street, 'url_get_street');
-      $tpl->merge($url_get_ward, 'url_get_ward');
-      
       $strToken = $token->generate(32);
       Session::add($tokenName, $strToken);
 
       $tpl->merge($strToken, $tokenName);
-      $tpl->merge($commitName, 'location_schools_form_commit');
+      $tpl->merge($commitName, 'blog_category_form_commit');
 
       $tpl->setFile([
         'content' 		  => $thisModule . '/form',
-        'sub_script' 		=> $thisModule . '/create-script',
-        'sub_style' 		=> $thisModule . '/create-style',
+        'sub_script' 		=> $thisModule . '/create-script'
       ]);
 
       $tpl->assign(['name' => 'Edit'], 'breadcrumb');
-      $tpl->merge('Location Schools', 'breadcrumb_name');
+      $tpl->merge('Blog Category', 'breadcrumb_name');
       $tpl->merge('Edit', 'breadcrumb_action');
       $tpl->merge('Update', 'button_form');
     }

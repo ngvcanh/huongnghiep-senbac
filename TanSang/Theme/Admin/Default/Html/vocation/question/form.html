@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Group</label>
                                 <div class="col-md-10"/>
-                                  <select class="form-control group_id col-sm-10" name="group_id">
+                                  <select class="form-control group_id col-sm-10" name="group_id" form-valid="int:1">
                                       <option selected="selected" value="0">Select Group</option>
                                       <k:each listVocationGroup> 
                                           <option {k:each:if listVocationGroup:class}selected{/k:each:if listVocationGroup:class} id="{k:each listVocationGroup.id}" value="{k:each listVocationGroup.id}">{k:each listVocationGroup.name}</option>                                           

@@ -28,7 +28,8 @@
                         <input type="text" name="name" value="{k:each listWard.name}" class="form-control hidden-border" form-valid="str:1:200"/>                      
                       </td>
                       <td>
-                        <select class="form-control district" name="district_id">
+                        <select class="form-control district" name="district_id" form-valid="int:1">
+                          <option selected="selected" value="0">Select District</option>
                           <k:each listDistrict> 
                               <option {k:var ward_{k:each listWard.id}_{k:each listDistrict.id}} value="{k:each listDistrict.id}">{k:each listDistrict.name}</option>                                           
                           </k:each listDistrict>
@@ -68,7 +69,7 @@
                     <div class="form-group col-md-12">
                         <div class="form-group">
                             <label>District name</label>
-                            <select class="form-control district" name="district_id">
+                            <select class="form-control district" name="district_id" form-valid="int:1">
                                 <option selected="selected" value="0">Select District</option>
                                 <k:each listDistrict> 
                                     <option id="{k:each listDistrict.id}" value="{k:each listDistrict.id}">{k:each listDistrict.name}</option>                                           

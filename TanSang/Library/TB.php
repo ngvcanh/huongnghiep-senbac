@@ -19,7 +19,7 @@ class TB{
     const F_BLOG_CATEGORY = [
         'id', 'name', 'slug', 'description', 'image', 'parent', 'title', 'keywords',
         'seo_desc', 'seo_h1', 'seo_h2', 'seo_h3', 'seo_h4', 'seo_h5', 'seo_h6',
-        'created_at', 'created_by', 'updated_at', 'updated_by'
+        'created_at', 'created_by', 'updated_at', 'updated_by', 'ordering'
     ];
 
     const F_POST = [

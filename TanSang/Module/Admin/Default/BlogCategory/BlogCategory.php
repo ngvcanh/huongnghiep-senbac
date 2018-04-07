@@ -40,10 +40,9 @@ final class BlogCategory extends Model{
         }
     }
 
-    final function deleteByIds(array $ids){
-        if (!empty($ids)){
-            $condition = "`id` IN (" . join(',', array_values($ids)) . ")";
-            $this->delete(TB::BLOG_CATEGORY, $condition);
+    final function deleteById($id){
+        if (!empty($id)){
+            $this->delete(TB::BLOG_CATEGORY, ['id' => $id]);
         }
     }
 
