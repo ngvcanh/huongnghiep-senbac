@@ -1,0 +1,36 @@
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/alert.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/validate.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/function.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $(document).on('input', 'input[type=range]', function(){
+      var val = $(this).val();
+
+      $(this).parent().find('span.input-result').text(val);
+    })
+
+
+    $(document).on('change', '#district_id', function(){
+      var id = $(this).val();
+      $.post(
+        $(this).attr('data-ajax'),
+        {
+          id
+        }, function(data){
+          $('#ward_id').html(data);
+        }
+      )
+    });
+
+    Validate.submit('#form-map', {
+      beforeValid   : beforeValid,
+      validError    : validError,
+      ajaxSuccess   : ajaxSuccess,
+      ajaxError     : ajaxError
+    });
+
+  });
+</script>

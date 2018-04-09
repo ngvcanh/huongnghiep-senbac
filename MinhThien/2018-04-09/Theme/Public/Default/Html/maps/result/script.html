@@ -1,0 +1,277 @@
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/jquery-3.3.1.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUqU4CmDvm8K8nArTXW6nXpOH7csCTGLg&libraries=places&callback=initAutocomplete"
+     async defer></script>
+<!-- <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA7j_Q-rshuWkc8HyFI4V2HxQYPm-xtd00hTQOC0OXpAMO40FHAxT29dNBGfxqMPq5zwdeiDSHEPL89A" type="text/javascript"></script> -->
+<script src="{k:var url_project}/Theme/Public/Default/Js/classie.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/alert.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/validate.js"></script>
+<script type="text/javascript" src="{k:var url_project}/Theme/Public/Default/Js/function.js"></script>
+
+<script>
+  var menuLeft 		= document.getElementById( 'cbp-spmenu-s1' ),
+    showLeftPush = document.getElementById( 'showLeftPush' ),
+    body = document.body;
+  
+  showLeftPush.onclick = function() {
+    classie.toggle( this, 'active' );
+    classie.toggle( body, 'cbp-spmenu-push-toright' );
+    classie.toggle( menuLeft, 'cbp-spmenu-open' );
+    disableOther( 'showLeftPush' );
+  };
+  
+  function disableOther( button ) {
+    if( button !== 'showLeftPush' ) {
+      classie.toggle( showLeftPush, 'disabled' );
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  var markers = [], map;
+  var icon = {
+      url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    };
+  function initAutocomplete() {
+
+    map = new google.maps.Map(document.getElementById('res-map'), {
+      center: {lat:  10.786019, lng: 106.636922},
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    
+    if($('#address').val().length > 0){
+      getPositionLocation($('#address').val(), function(data){
+        if(data.status == 'OK'){
+          
+          var {lat, lng} = data.results[0].geometry.location;
+          var title = data.results[0].formatted_address;
+          setMap(map, {lat, lng}, title, icon);
+          getPositionSchool({lat, lng}, function(data){
+              if(data.maps.length > 0){
+                setMarker(data.maps, null, 'Trường Học', data.conetnts);
+              }
+              Alert.popup({
+                title     : data.title,
+                classes   : data.status,
+                message   : data.message,
+                btn       : [{
+                  label     : 'OK',
+                  color     : (data.status == 'error' ? 'red' : 'green'),
+                  isFocus   : true,
+                  fn        : Alert.close
+                }]
+              });
+              
+            });
+        }else{
+          Alert.popup({
+            title     : 'Location Error',
+            classes   : 'error',
+            message   : 'Vị Trí Của bạn không được tìm thấy!',
+            btn       : [{
+              label     : 'OK',
+              color     : 'red',
+              isFocus   : true,
+              fn        : Alert.close
+            }]
+          });
+        }
+      });
+    }
+    else{
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(pos);
+        });
+      }
+    }
+  }
+
+  $(document).ready(function(){
+    $('#res-map').css({"min-height": window.innerHeight });
+    $(document).on('input', 'input[type=range]', function(){
+      var val = $(this).val();
+
+      $(this).parent().find('span.input-result').text(val);
+    })
+
+    Validate.submit('#submit-form-search', {
+      beforeValid : beforeValid,
+      validError : validError,
+      doAjax : false,
+      handlingForm : function(selector){
+        var address = $('input#address').val();
+        getPositionLocation(address, function(data){
+          if(data.status == 'OK'){
+            var {lat, lng} = data.results[0].geometry.location;
+            var title = data.results[0].formatted_address;
+            setMap(map, {lat, lng}, title, icon);
+            getPositionSchool({lat, lng}, function(data){
+              if(data.maps.length > 0){
+                setMarker(data.maps, null, 'Trường Học', data.conetnts);
+              }
+              Alert.popup({
+                title     : data.title,
+                classes   : data.status,
+                message   : data.message,
+                btn       : [{
+                  label     : 'OK',
+                  color     : (data.status == 'error' ? 'red' : 'green'),
+                  isFocus   : true,
+                  fn        : Alert.close
+                }]
+              });
+              
+            });
+          }else{
+            Alert.popup({
+              title     : 'Location Error',
+              classes   : 'error',
+              message   : 'Vị Trí Của bạn không được tìm thấy!',
+              btn       : [{
+                label     : 'OK',
+                color     : 'red',
+                isFocus   : true,
+                fn        : Alert.close
+              }]
+            });
+          }
+        });
+      }
+  });
+  });
+
+  function addMarker(loca, title = null, icon = null, content = null) {
+    var marker = new google.maps.Marker({
+      position: loca,
+      map: map,
+      title: title,
+      icon: icon,
+      animation: google.maps.Animation.DROP
+    });
+    marker.clicked = false;
+    markers.push(marker);
+    if(null != content)
+      attachSecretMessage(marker, content);
+  }
+
+  function setMarker(locas, icon = null, title = null, contents = null){
+    locas.forEach((loca, i) => {
+      var about = parseInt(contents[i].about);
+      about = ( ( about >= 1000 ) ? ( parseInt(about/1000) + ',' + (about%1000) + 'Km' ) : (about + 'm') );
+      var content = `<div id="mapsView">
+                        <div>
+                          <p><strong>Trường Học: </strong> ${contents[i].name}</p>
+                        </div>
+                        <div>
+                          <p><strong>Địa Chỉ: </strong> ${contents[i].address}</p>
+                        </div>
+                        <div>
+                          <p><strong>Điểm Chuẩn: </strong> ${contents[i].point}</p>
+                        </div>
+                        <div>
+                          <p><strong>Khoảng Cách Khoảng: </strong> ${about}</p>
+                        </div>
+                      </div>`;
+      addMarker(loca, contents[i].name, icon, content);
+    });
+  }
+
+  function setMapOnAll(map) {
+    markers.forEach((marker, i) => {
+      marker.setMap(map);
+    });
+  }
+
+  function setMap(map, loca, title = null, icon = null){
+    deleteMarkers();
+    addMarker(loca, title, icon);
+    setCenterMap(markers[0], loca);
+    map.setCenter(loca);
+  }
+
+  function setCenterMap(marker, loca){
+    marker.setMap(map);
+  }
+
+  function deleteMarkers() {
+    setMapOnAll(null);
+    markers = [];
+  }
+
+  function showMarkers() {
+    setMapOnAll(map);
+  }
+
+  function getPositionLocation(loca, callback){
+    $.get(
+      'https://maps.googleapis.com/maps/api/geocode/json?address='+ loca +'&sensor=false',
+      function(data){
+        if (!!callback && Function === callback.constructor){
+          callback(data);
+        }
+      }
+    );
+  }
+
+  function getPositionSchool(loca, callback){
+    var address       = $('#address').val();
+    var match         = $('#point_match').val();
+    var literature    = $('#point_literature').val();
+    var more          = $('#point_more').val();
+    var about_km      = $('#about_km').val();
+    var about_point   = $('#about_point').val();
+    var token         = $('#token').val();
+    var commit        = $('#commit').val();
+    var {lat, lng}    = loca;
+
+    $.post(
+      $('#submit-form-search').attr('data-ajax'),
+      {
+        address,
+        match,
+        literature,
+        more,
+        about_km,
+        about_point,
+        token,
+        commit,
+        lat,
+        lng
+      },function(data){
+        if (!!callback && Function === callback.constructor){
+          callback(data);
+        }
+      },'json'
+    );
+  }
+
+  function attachSecretMessage(marker, secretMessage) {
+    var infowindow = new google.maps.InfoWindow({
+      content: secretMessage,
+    });
+
+    marker.addListener('mouseover', function() {
+      if (!this.clicked) infowindow.open(marker.get('res-map'), marker);
+    });
+
+    marker.addListener('click', function() {
+      this.clicked = true;
+      infowindow.open(marker.get('res-map'), marker);
+    });
+
+    google.maps.event.addListener(infowindow, 'closeclick', () =>{
+      marker.clicked = false;
+    });
+
+    marker.addListener('mouseout', function() {
+      if (!this.clicked) infowindow.close(marker.get('res-map'), marker);
+    });
+    
+  }
+</script>
