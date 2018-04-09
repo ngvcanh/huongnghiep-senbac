@@ -1,0 +1,38 @@
+<section class="content">
+  <div class="row"> 
+      <!-- right column -->
+    <div class="col-md-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">{k:var breadcrumb_title}</h3>
+          <a href="{k:var url_add}" class="btn btn-success btn-flat pull-right">Add</a>
+        </div>
+        <div class="box-body">
+          <table id="dataTable" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th width="80%">Name</th>
+                  <th>Acction</th>
+                </tr>
+              </thead>
+              <tbody>
+                <k:each listStreet>
+                  <tr>
+                    <td>{k:each listStreet.id}</td>
+                    <td>{k:each listStreet.name}</td>
+                    <td>
+                      <k:each listStreet.url_street>
+                        <a href="{k:each listStreet.url_street.edit}" class="btn btn-primary btn-flat">Edit</a>
+                        <a href="{k:each listStreet.url_street.delete}" class="btn btn-danger btn-flat">Delete</a>
+                      </k:each listStreet.url_street>
+                    </td>
+                  </tr>
+                </k:each listStreet>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+</section>

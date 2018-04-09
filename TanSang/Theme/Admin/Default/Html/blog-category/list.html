@@ -1,0 +1,47 @@
+<section class="content">
+  <div class="row"> 
+      <!-- right column -->
+    <div class="col-md-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">{k:var breadcrumb_title}</h3>
+          <a href="{k:var url_add}" class="btn btn-success btn-flat pull-right">Add</a>
+        </div>
+        <div class="box-body">
+          <table id="dataTable" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th width="70%">Name</th>
+                  <th width="20%">Image</th>
+                  <th width="10%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <k:each listBlogCate>
+                  <tr>
+                    <td>{k:each listBlogCate.id}</td>
+                    <td ><b style="font-size:125%">{k:each listBlogCate.name}</b><br/>{k:each listBlogCate.slug}</td>
+                    <td>{k:each listBlogCate.image}</td>
+                    <td>
+                      <center>
+                        <a href="{k:each listBlogCate.url_edit}" class="btn btn-success btn-xs editGroup"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger btn-xs deleteGroup" action="{k:each listBlogCate.url_delete}" method="post" data-id="{k:each listBlogCate.id}">
+                          <input type="hidden" name="token" value="{k:var blog_category_form_token}" />
+                          <input type="hidden" name="commit" value="{k:var blog_category_form_commit}" />
+                          <input type="hidden" name="id" value="{k:each listBlogCate.id}" />
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </center>
+                      
+                       
+                    </td>
+                  </tr>
+                </k:each listBlogCate>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+</section>

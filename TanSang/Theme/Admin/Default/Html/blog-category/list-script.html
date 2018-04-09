@@ -1,0 +1,36 @@
+<script src="{k:var url_project}/Theme/Admin/Default/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="{k:var url_project}/Theme/Admin/Default/plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function () {
+        $('#dataTable').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": true
+        });
+      });
+
+  $(document).on('click', '.deleteGroup', function(){
+
+    var $sefl = this, DoDelete = function(){
+      Validate.action($sefl, {
+        ajaxSuccess : ajaxSuccess,
+        ajaxError : ajaxError
+      });
+    };
+
+    Alert.popup({
+    title: "Delete",
+    classes: "warning",
+    message: "Are you sure delete blog category?",
+    btn : [
+      {label: 'Cancel', color: 'orange', isFocus: true, fn: Alert.close},
+      {label: 'Delete', color: 'orange', fn: DoDelete}
+    ]
+    });
+
+    return false;
+  });
+</script>

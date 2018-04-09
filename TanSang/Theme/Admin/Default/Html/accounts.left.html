@@ -1,0 +1,38 @@
+<div id="left-wrapper">
+    <div class="left-header">List accounts</div>
+    <div class="left-body">
+        <ul>
+            <k:each accounts>
+                <li>
+                    <a href="{k:each accounts.url}" class="{k:each accounts.class}">{k:each accounts.firstname} {k:each accounts.lastname} <span class="fsmall">- {k:each accounts.email}</span></a>
+                </li>
+            </k:each accounts>
+        </ul>
+    </div>
+    <div class="left-footer">
+        <ul class="paging" style="text-align:center;">
+            <li>
+                <a href="#" class="disabled">«</a>
+            </li>
+            <li>
+                <a href="#" class="disabled">‹</a>
+            </li>
+            <li>
+                <input type="text" id="paging-current" value="1">
+            </li>
+            <li>
+                <a href="/member/list?page=2" class="">›</a>
+            </li>
+            <li>
+                <a href="/member/list?page=16776" class="">»</a>
+            </li>
+            <li>
+                <a href="/member/list?page={{GOTO}}" id="goToPage">►</a>
+            </li>
+            <li>
+                <span id="paging-total" class="fsmall">16776 page(s)</span>
+            </li>
+            <li class="clear"></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div id="right-wrapper">
+    <div class="right-body">
+        <form action="{k:var url_current}" method="post" id="dashboard-form">
+            <h3>{k:var header_form_name}</h3>
+            <ul>
+                
+                <li>
+                    <div>
+                        <label>Email <span class="star"></span></label>
+                        <input type="text" name="email" form-valid="email:7:100" value="{k:var account.email}">
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Password <span class="star"></span></label>
+                        <input type="password" name="password" form-valid="str:{k:var min_passwd}:32" value="">
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Firstname <span class="star"></span></label>
+                        <input type="text" name="firstname" form-valid="str:2:100" value="{k:var account.firstname}">
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Lastname <span class="star"></span></label>
+                        <input type="text" name="lastname" form-valid="str:2:100" value="{k:var account.lastname}">
+                    </div>
+                </li>
+            </ul>
+            <div class="clear"></div>
+            <div class="btnForm">
+                <input type="hidden" name="token" value="{k:var accounts_form_token}">
+                <input type="hidden" name="commit" value="{k:var accounts_form_commit}">
+                <button class="hbBtn" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

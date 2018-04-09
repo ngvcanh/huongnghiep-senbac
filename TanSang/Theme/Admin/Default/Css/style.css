@@ -1,0 +1,6 @@
+.hidden-border{
+	border: none;
+}
+.hidden-border:focus{
+	border: 1px solid #269abc;
+}

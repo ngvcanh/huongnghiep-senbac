@@ -1,0 +1,83 @@
+<div id="page-wrapper" style="min-height: 228px;">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Data Table</h4> </div>
+            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <button class="right-side-toggle btn btn-info btn-rounded pull-right m-l-20">
+                        Create
+                    </button>
+                <ol class="breadcrumb">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Contacts</a></li>
+                    <li class="active">List Contacts</li>
+                </ol>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <div class="table-responsive">
+                        <div id="myTable_wrapper" class="dataTables_wrapper no-footer">
+                            <table id="myTable" class="table table-striped dataTable no-footer" role="grid" aria-describedby="myTable_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 181px;">Name</th>
+                                        <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending" style="width: 271px;">Email</th>
+                                        <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 135px;">Phone</th>
+                                        <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 73px;">Age</th>
+                                        <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 138px;">Start date</th>
+                                        <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 110px;">Salary</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <k:each listcontacts>
+                                    <tr role="row" class="odd">
+                                        <td class="sorting_1">
+                                            <a href="{k:each listcontacts.url_activity}">{k:each listcontacts.firstname} {k:each listcontacts.lastname}</a>
+                                        </td>
+                                        <td>
+                                            <a href="mailto:{k:each listcontacts.email}?bcc=ngvcanh.dev@gmail.com">{k:each listcontacts.email}</a>
+                                        </td>
+                                        <td>
+                                            <a href="call:{k:each listcontacts.phone}"></a>
+                                        </td>
+                                        <td>33</td>
+                                        <td>2008/11/28</td>
+                                        <td>$162,700</td>
+                                    </tr>
+                                    </k:each listcontacts>
+                                </tbody>
+                            </table>
+                            <div class="dataTables_info" id="myTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                            <div class="dataTables_paginate paging_simple_numbers" id="myTable_paginate">
+                                <a class="paginate_button previous disabled" aria-controls="myTable" data-dt-idx="0" tabindex="0" id="myTable_previous">Previous</a>
+                                <span>
+                                    <a class="paginate_button current" aria-controls="myTable" data-dt-idx="1" tabindex="0">1</a>
+                                    <a class="paginate_button " aria-controls="myTable" data-dt-idx="2" tabindex="0">2</a>
+                                    <a class="paginate_button " aria-controls="myTable" data-dt-idx="3" tabindex="0">3</a>
+                                    <a class="paginate_button " aria-controls="myTable" data-dt-idx="4" tabindex="0">4</a>
+                                    <a class="paginate_button " aria-controls="myTable" data-dt-idx="5" tabindex="0">5</a>
+                                    <a class="paginate_button " aria-controls="myTable" data-dt-idx="6" tabindex="0">6</a>
+                                </span>
+                                <a class="paginate_button next" aria-controls="myTable" data-dt-idx="7" tabindex="0" id="myTable_next">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <k:inc right_sidebar>
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- /.container-fluid -->
+    <footer class="footer text-center"> 2017 © Ample Admin brought to you by themedesigner.in </footer>
+</div>
